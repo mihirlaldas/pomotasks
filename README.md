@@ -2,4 +2,4 @@
 
 - [x] mysql
 - [x] flask
-- [x] react
+- [x] react,redux,router
