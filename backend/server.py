@@ -102,3 +102,46 @@ def login():
         print(e)
         return jsonify({"error":True,"message": str(e)})
 
+
+# jwt authentication with secret key
+def jwt_auth(token):
+    try:
+        email = jwt.decode(token, 'secret', algorithms=['HS256'])
+        cursor=mysql.connection.cursor()
+        cursor.execute("""SELECT count(id) FROM users WHERE email=%s""",(str(email["email"]),))
+        result = cursor.fetchone()
+        print(result)
+    except:
+        return jsonify({"error":True,"message": "unauthorised access restricted"})
+    
+    if(result["count(id)"]==0):
+        return False
+    else:
+        return True
+
+# user infomation
+@app.route("/user",methods=['GET'])
+def auth():
+    auth_header = request.headers.get('Authorization')
+    if(auth_header is not None):
+        token = auth_header.split(' ')[1]
+    #    if user has valid jwt send user details
+        if jwt_auth(token):
+            try:
+                cursor=mysql.connection.cursor()
+                email = jwt.decode(token, 'secret', algorithms=['HS256'])
+                print(email)
+                cursor.execute("""SELECT id,name,email FROM users WHERE email=%s""",(str(email["email"]),))
+                result = cursor.fetchone()
+                return jsonify({"error":False,"data": result})
+            except:
+                return jsonify({"error":True,"message": "unauthorised access restricted"})
+            finally:
+                cursor.close()
+        else:
+            return jsonify({"error":True,"message": "unauthorised access restricted"})
+    else:
+        return jsonify({"error":True,"message": "unauthorised access restricted"})
+
+
+   
