@@ -1,11 +1,10 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
-
+import Routes from "./routes/Routes";
 function App() {
   return (
     <div className="App">
-      <h1>Task timer</h1>
+      <Routes />
     </div>
   );
 }
