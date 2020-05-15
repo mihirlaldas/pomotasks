@@ -1,13 +1,16 @@
-import React from "react";
-import { Link } from "react-router-dom";
 import Navbar from "./Navbar";
-function Home() {
-  return (
-    <div>
-      <Navbar />
-      Home Page
-    </div>
-  );
+import React, { Component } from "react";
+import Timer from "./Timer";
+export class Home extends Component {
+  render() {
+    return (
+      <div>
+        <Navbar />
+        Home page
+        <Timer />
+      </div>
+    );
+  }
 }
 
 export default Home;
