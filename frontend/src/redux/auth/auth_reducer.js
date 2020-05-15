@@ -3,14 +3,14 @@ import {
   AUTH_FETCH_SUCCESS,
   AUTH_FETCH_FAILURE,
   TOGGLE_LOGIN,
-  AUTH_RESET
+  AUTH_RESET,
 } from "./auth_action";
 
 const initialState = {
   isLoggedin: false,
   isLoading: false,
   data: {},
-  status: null
+  status: null,
 };
 
 export const auth_reducer = (state = initialState, action) => {
@@ -18,19 +18,19 @@ export const auth_reducer = (state = initialState, action) => {
     case AUTH_RESET:
       return {
         ...state,
-        ...initialState
+        ...initialState,
       };
     case AUTH_FETCH_REQUEST:
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
       };
     case AUTH_FETCH_SUCCESS:
       return {
         ...state,
         isLoading: false,
         data: action.payload.data,
-        status: action.payload.status
+        status: action.payload.status,
       };
     case AUTH_FETCH_FAILURE:
       console.log(action.payload);
@@ -38,12 +38,12 @@ export const auth_reducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         data: action.payload.data,
-        status: action.payload
+        status: action.payload,
       };
     case TOGGLE_LOGIN:
       return {
         ...state,
-        isLoggedin: true
+        isLoggedin: !state.isLoggedin,
       };
     default:
       return state;

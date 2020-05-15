@@ -6,7 +6,9 @@
   height: 40vmin;
   pointer-events: none;
 }
-
+Link {
+  text-decoration: None;
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
