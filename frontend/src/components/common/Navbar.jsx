@@ -8,7 +8,7 @@ function Navbar(props) {
     <div className="container">
       <div className="row">
         <div className="col-3">
-          <Link To="/">
+          <Link to="/">
             <button className="btn btn-info">
               Pomo<span className="text-warning">Tasks</span>
             </button>

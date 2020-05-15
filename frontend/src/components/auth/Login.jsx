@@ -33,9 +33,9 @@ export class Login extends Component {
       if (result.payload.data.error) alert(result.payload.data.message);
       else if (!this.props.data.error) {
         this.props.toggleLogin();
-        alert("success login.   token :" + result.payload.data.token);
+        // alert("success login.   token :" + result.payload.data.token);
         localStorage.setItem("user", JSON.stringify(result.payload.data));
-        console.log("heelo");
+        console.log("login sucessfull");
         this.props.history.push("/");
       }
     } else {

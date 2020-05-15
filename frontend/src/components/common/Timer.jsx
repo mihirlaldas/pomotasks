@@ -55,9 +55,7 @@ export default class Timer extends React.Component {
       second: 0,
     });
   };
-  // firstBtn = () => {
-  //     this;
-  // };
+
   render() {
     if (this.state.minutes === 0 && this.state.second === 0) this.stop();
     if (this.state.showInput) {
