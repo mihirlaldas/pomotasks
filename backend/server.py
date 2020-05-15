@@ -143,5 +143,29 @@ def auth():
     else:
         return jsonify({"error":True,"message": "unauthorised access restricted"})
 
+# get all projects and tasks of a user
 
-   
+@app.route("/tasks",methods=['POST'])
+def tasks():
+    auth_header = request.headers.get('Authorization')
+    user_id=str(request.json["user_id"])
+    if(auth_header is not None):
+        token = auth_header.split(' ')[1]
+    #    if user has valid jwt send user details
+        if jwt_auth(token):
+            try:
+                cursor=mysql.connection.cursor()
+                cursor.execute("""SELECT * from projects LEFT JOIN tasks ON projects.id=project_id WHERE projects.user_id=%s;""",(user_id,))
+                result = cursor.fetchall()
+                print(result)
+                response = {"error":False,"data": result}
+                return json.dumps(response, indent=4, sort_keys=True, default=str)
+
+            except Exception as e:
+                return jsonify({"error":True,"message": str(e)})
+            finally:
+                cursor.close()
+        else:
+            return jsonify({"error":True,"message": "unauthorised access restricted"})
+    else:
+        return jsonify({"error":True,"message": "unauthorised access restricted"})
