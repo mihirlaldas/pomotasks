@@ -29,13 +29,17 @@ export class Login extends Component {
       },
     };
     const result = await this.props.fetchAuthData(config);
+    console.log(result);
     if (result.payload.status === 200) {
       if (result.payload.data.error) alert(result.payload.data.message);
       else if (!this.props.data.error) {
-        this.props.toggleLogin();
         // alert("success login.   token :" + result.payload.data.token);
+
         localStorage.setItem("user", JSON.stringify(result.payload.data));
+
         console.log("login sucessfull");
+        await this.props.toggleLogin();
+
         this.props.history.push("/");
       }
     } else {

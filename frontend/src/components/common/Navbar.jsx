@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { toggleLogin } from "../../redux/auth/auth_action";
+import { taskReset } from "../../redux/task/task_action";
 
 function Navbar(props) {
   return (
@@ -22,7 +23,10 @@ function Navbar(props) {
               </Link>
               <Link to="" className="p-1">
                 <button
-                  onClick={() => props.toggleLogin()}
+                  onClick={() => {
+                    props.toggleLogin();
+                    props.taskReset();
+                  }}
                   className="btn btn-outline-primary"
                 >
                   Logout
@@ -51,6 +55,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = { toggleLogin };
+const mapDispatchToProps = { toggleLogin, taskReset };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

@@ -28,15 +28,23 @@ export default class Timer extends React.Component {
   stop = () => {
     console.log("stop");
     clearInterval(this.interval);
+
     this.setState({
       isOn: false,
+      current_time: {
+        h: this.state.hour,
+        m: this.state.minutes,
+        s: this.state.second,
+      },
     });
     this.props.timerFnc(this.state);
   };
 
   reset = () => {
-    this.stop();
+    clearInterval(this.interval);
+    this.props.timerFnc(this.state);
     this.setState({
+      isOn: false,
       hour: 0,
       minutes: 0,
       second: 0,

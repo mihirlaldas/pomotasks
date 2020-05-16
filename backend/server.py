@@ -259,3 +259,31 @@ def create_task():
             return jsonify({"error":True,"message": "unauthorised access restricted: incorrect token"})
     else:
         return jsonify({"error":True,"message": "unauthorised access restricted: no header found"})
+
+# update task with new elapsed time
+
+@app.route("/update_task",methods=['POST'])
+def update_task():
+    auth_header = request.headers.get('Authorization')
+    task_id=str(request.json["task_id"])
+    elapsed_time = str(request.json["elapsed_time"])
+    date_format =  '%H:%M:%S' 
+    elapsed_time = datetime.datetime.strptime(elapsed_time,date_format).time()
+    print(task_id,elapsed_time)
+    if(auth_header is not None):
+        token = auth_header.split(' ')[1]
+    #    if user has valid jwt send user details
+        if jwt_auth(token):
+            try:
+                cursor=mysql.connection.cursor()
+                cursor.execute("""UPDATE tasks SET elapsed_time = %s WHERE id = %s;""",(elapsed_time,task_id,))
+                mysql.connection.commit()
+                return json.dumps({"error":False,"message":" task updated successfully"})
+            except Exception as e:
+                return jsonify({"error":True,"message": str(e)})
+            finally:
+                cursor.close()
+        else:
+            return jsonify({"error":True,"message": "unauthorised access restricted: incorrect token"})
+    else:
+        return jsonify({"error":True,"message": "unauthorised access restricted: no header found"})
