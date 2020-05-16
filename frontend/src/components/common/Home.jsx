@@ -90,12 +90,19 @@ export class Home extends Component {
     await this.createProject();
     this.loadProjects();
   };
+
+  timerResult = (timeState) => {
+    console.log(timeState);
+    let time =
+      timeState.hour + ":" + timeState.minutes + ":" + timeState.second;
+    console.log(time);
+  };
   render() {
     return (
       <div>
         <Navbar />
         Home page
-        <Timer />
+        <Timer timerFnc={this.timerResult} />
         {/* show input field to create project or task */}
         <div className="container-fluid">
           <div className="row">

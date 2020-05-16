@@ -15,7 +15,6 @@ export default class Timer extends React.Component {
     this.interval = setInterval(
       () =>
         this.setState((prevState) => ({
-          showInput: false,
           isOn: true,
           second: prevState.second < 60 ? prevState.second + 1 : 0,
           minutes:
@@ -32,6 +31,7 @@ export default class Timer extends React.Component {
     this.setState({
       isOn: false,
     });
+    this.props.timerFnc(this.state);
   };
 
   reset = () => {
