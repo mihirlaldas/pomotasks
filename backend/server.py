@@ -194,3 +194,29 @@ def tasks():
             return jsonify({"error":True,"message": "unauthorised access restricted"})
     else:
         return jsonify({"error":True,"message": "unauthorised access restricted"})
+
+
+# create a project
+
+@app.route("/create_project",methods=['POST'])
+def create_project():
+    auth_header = request.headers.get('Authorization')
+    user_id=str(request.json["user_id"])
+    project_name = str(request.json["project_name"])
+    if(auth_header is not None):
+        token = auth_header.split(' ')[1]
+    #    if user has valid jwt send user details
+        if jwt_auth(token):
+            try:
+                cursor=mysql.connection.cursor()
+                cursor.execute("""INSERT INTO projects (project_name,user_id) VALUES(%s,%s);""",(project_name,user_id,))
+                mysql.connection.commit()
+                return json.dumps({"error":False,"message":"new Project inserted successfully"})
+            except Exception as e:
+                return jsonify({"error":True,"message": str(e)})
+            finally:
+                cursor.close()
+        else:
+            return jsonify({"error":True,"message": "unauthorised access restricted"})
+    else:
+        return jsonify({"error":True,"message": "unauthorised access restricted"})
