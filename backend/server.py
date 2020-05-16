@@ -5,7 +5,7 @@ import hashlib
 import os
 import json
 import jwt
-
+import datetime
 app=Flask(__name__)
 
 # db connnection configuration
@@ -220,3 +220,42 @@ def create_project():
             return jsonify({"error":True,"message": "unauthorised access restricted"})
     else:
         return jsonify({"error":True,"message": "unauthorised access restricted"})
+
+
+# create new Task
+@app.route("/create_task",methods=['POST'])
+def create_task():
+    auth_header = request.headers.get('Authorization')
+    user_id=str(request.json["user_id"])
+    task_name = str(request.json["task_name"])
+
+    date_format =  '%H:%M:%S' 
+    start_time = str(request.json["start_time"])
+    start_time = datetime.datetime.strptime(start_time,date_format)
+    end_time = str(request.json["end_time"])
+    end_time = datetime.datetime.strptime(end_time,date_format)
+    project_id= str(request.json["project_id"])
+    total_time = end_time-start_time
+    total_time = (datetime.datetime.min + total_time).time()
+
+    start_time=start_time.time()
+    end_time=end_time.time()
+    elapsed_time="00:00:00"
+    print(start_time,end_time,total_time,type(total_time))
+    if(auth_header is not None):
+        token = auth_header.split(' ')[1]
+    #    if user has valid jwt send user details
+        if jwt_auth(token):
+            try:
+                cursor=mysql.connection.cursor()
+                cursor.execute("""INSERT INTO tasks (project_id,user_id,task_name,start_time,end_time,total_time,elapsed_time) VALUES(%s,%s,%s,%s,%s,%s,%s);""",(project_id,user_id,task_name,start_time,end_time,total_time,elapsed_time))
+                mysql.connection.commit()
+                return json.dumps({"error":False,"message":"new task inserted successfully"})
+            except Exception as e:
+                return jsonify({"error":True,"message": str(e)})
+            finally:
+                cursor.close()
+        else:
+            return jsonify({"error":True,"message": "unauthorised access restricted: incorrect token"})
+    else:
+        return jsonify({"error":True,"message": "unauthorised access restricted: no header found"})
