@@ -39,6 +39,38 @@ export const fetchTaskData = (config) => {
   };
 };
 
+export const ALL_TASK_FETCH_REQUEST = "ALL_TASK_FETCH_REQUEST";
+export const ALL_TASK_FETCH_SUCCESS = "ALL_TASK_FETCH_SUCCESS";
+export const ALL_TASK_FETCH_FAILURE = "ALL_TASK_FETCH_FAILURE";
+
+export const fetchAllTaskRequest = () => {
+  return {
+    type: ALL_TASK_FETCH_REQUEST,
+  };
+};
+
+export const fetchAllTaskSuccess = (data) => {
+  return {
+    type: ALL_TASK_FETCH_SUCCESS,
+    payload: data,
+  };
+};
+
+export const fetchAllTaskFailure = (data) => {
+  return {
+    type: ALL_TASK_FETCH_FAILURE,
+    payload: data,
+  };
+};
+export const fetchAllTaskData = (config) => {
+  return async (dispatch) => {
+    dispatch(fetchAllTaskRequest);
+    return await axios(config)
+      .then((res) => dispatch(fetchAllTaskSuccess(res)))
+      .catch((error) => dispatch(fetchAllTaskFailure(error)));
+  };
+};
+
 export const CREATE_REQUEST = "CREATE_REQUEST";
 export const CREATE_SUCCESS = "CREATE_SUCCESS";
 export const CREATE_FAILURE = "CREATE_FAILURE";

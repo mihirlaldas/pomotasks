@@ -6,6 +6,9 @@ import {
   CREATE_SUCCESS,
   CREATE_FAILURE,
   CREATE_REQUEST,
+  ALL_TASK_FETCH_FAILURE,
+  ALL_TASK_FETCH_REQUEST,
+  ALL_TASK_FETCH_SUCCESS,
 } from "./task_action";
 
 const initialState = {
@@ -13,6 +16,7 @@ const initialState = {
   data: {},
   status: null,
   createMsg: "",
+  tasks: {},
 };
 
 export const task_reducer = (state = initialState, action) => {
@@ -40,6 +44,27 @@ export const task_reducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         data: action.payload.data,
+        status: action.payload,
+      };
+
+    case ALL_TASK_FETCH_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case ALL_TASK_FETCH_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        tasks: action.payload.data,
+        status: action.payload.status,
+      };
+    case ALL_TASK_FETCH_FAILURE:
+      console.log(action.payload);
+      return {
+        ...state,
+        isLoading: false,
+        tasks: action.payload.data,
         status: action.payload,
       };
     case CREATE_REQUEST: {
