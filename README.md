@@ -10,7 +10,9 @@
 
 - First import pomotasks.sql . you will get all the tables with some data
   - Tables are users, projects, tasks
-  - user credentials. email - mihir@gmail.com, password - mihir. email - somu@in.com, password - somu.
+  - sample user credentials
+    - email : mihir@gmail.com, password : mihirlaldas
+    - email : somu@in.com, password : somu
 - allow CORS . ** gives error if not allowed **
 
   - [install chrome extension cors](https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf?hl=en)
@@ -30,7 +32,7 @@
 
 ## DB schema
 
-    ```
+```
     mysql> describe users;
 
 +----------+--------------+------+-----+---------+----------------+
@@ -71,4 +73,4 @@ mysql> describe tasks
 +--------------+--------------+------+-----+---------+----------------+
 8 rows in set (0.00 sec)
 
-    ```
+```
