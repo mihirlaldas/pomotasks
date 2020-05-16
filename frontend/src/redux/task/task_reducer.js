@@ -3,12 +3,16 @@ import {
   TASK_FETCH_SUCCESS,
   TASK_FETCH_FAILURE,
   TASK_RESET,
+  CREATE_SUCCESS,
+  CREATE_FAILURE,
+  CREATE_REQUEST,
 } from "./task_action";
 
 const initialState = {
   isLoading: false,
   data: {},
   status: null,
+  createMsg: "",
 };
 
 export const task_reducer = (state = initialState, action) => {
@@ -38,7 +42,27 @@ export const task_reducer = (state = initialState, action) => {
         data: action.payload.data,
         status: action.payload,
       };
-
+    case CREATE_REQUEST: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case CREATE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        createMsg: action.payload.data,
+        status: action.payload.status,
+      };
+    case CREATE_FAILURE:
+      console.log(action.payload);
+      return {
+        ...state,
+        isLoading: false,
+        createMsg: action.payload.data,
+        status: action.payload,
+      };
     default:
       return state;
   }

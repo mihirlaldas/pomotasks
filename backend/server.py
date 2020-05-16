@@ -229,7 +229,7 @@ def create_task():
     user_id=str(request.json["user_id"])
     task_name = str(request.json["task_name"])
 
-    date_format =  '%H:%M:%S' 
+    date_format =  '%H:%M' 
     start_time = str(request.json["start_time"])
     start_time = datetime.datetime.strptime(start_time,date_format)
     end_time = str(request.json["end_time"])
@@ -241,7 +241,7 @@ def create_task():
     start_time=start_time.time()
     end_time=end_time.time()
     elapsed_time="00:00:00"
-    print(start_time,end_time,total_time,type(total_time))
+    print(task_name,start_time,end_time,total_time)
     if(auth_header is not None):
         token = auth_header.split(' ')[1]
     #    if user has valid jwt send user details

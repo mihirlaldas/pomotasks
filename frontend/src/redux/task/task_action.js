@@ -38,3 +38,36 @@ export const fetchTaskData = (config) => {
       .catch((error) => dispatch(fetchTaskFailure(error)));
   };
 };
+
+export const CREATE_REQUEST = "CREATE_REQUEST";
+export const CREATE_SUCCESS = "CREATE_SUCCESS";
+export const CREATE_FAILURE = "CREATE_FAILURE";
+
+export const createRequest = () => {
+  return {
+    type: CREATE_REQUEST,
+  };
+};
+
+export const createSuccess = (data) => {
+  return {
+    type: CREATE_SUCCESS,
+    payload: data,
+  };
+};
+
+export const createFailure = (data) => {
+  return {
+    type: CREATE_FAILURE,
+    payload: data,
+  };
+};
+
+export const create = (config) => {
+  return async (dispatch) => {
+    dispatch(createRequest);
+    return await axios(config)
+      .then((res) => dispatch(createSuccess(res)))
+      .catch((error) => dispatch(createFailure(error)));
+  };
+};
